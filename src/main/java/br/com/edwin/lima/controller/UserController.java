@@ -1,7 +1,9 @@
 package br.com.edwin.lima.controller;
 
+import br.com.edwin.lima.controller.data.vo.UserVO;
 import br.com.edwin.lima.entity.User;
 import br.com.edwin.lima.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,22 +21,22 @@ public class UserController {
 
 
     @GetMapping
-    ResponseEntity<List<User>> listAllUsers(){
+    ResponseEntity<List<UserVO>> listAllUsers(){
         return ResponseEntity.ok(service.findAllUsers());
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<User> findById(@PathVariable(value = "id") Long id){
+    ResponseEntity<UserVO> findById(@PathVariable(value = "id") Long id){
         return ResponseEntity.ok(service.findById(id));
     }
 
     @PostMapping
-    ResponseEntity<User> saveUser(@RequestBody User user){
+    ResponseEntity<UserVO> saveUser(@Valid @RequestBody User user){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
     }
 
     @PutMapping
-    ResponseEntity<User> updateUser(@RequestBody User user){
+    ResponseEntity<UserVO> updateUser(@Valid @RequestBody User user){
         return ResponseEntity.ok(service.update(user));
     }
 

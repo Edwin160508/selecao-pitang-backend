@@ -1,5 +1,7 @@
 package br.com.edwin.lima.service;
 
+import br.com.edwin.lima.controller.data.vo.CarVO;
+import br.com.edwin.lima.controller.data.vo.mapper.CarMapper;
 import br.com.edwin.lima.entity.Car;
 import br.com.edwin.lima.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,8 @@ public class CarService {
     @Autowired
     private CarRepository repository;
 
-    public List<Car> findAll(){
+    public List<CarVO> findAll(){
         logger.info("Try list all Cars.");
-        return repository.findAll();
+        return CarMapper.toListVO(repository.findAll());
     }
 }

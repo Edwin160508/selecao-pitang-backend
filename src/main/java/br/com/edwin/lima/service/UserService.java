@@ -1,5 +1,7 @@
 package br.com.edwin.lima.service;
 
+import br.com.edwin.lima.controller.data.vo.UserVO;
+import br.com.edwin.lima.controller.data.vo.mapper.UserMapper;
 import br.com.edwin.lima.entity.Car;
 import br.com.edwin.lima.entity.User;
 import br.com.edwin.lima.exceptions.ResourceNotFoundException;
@@ -25,43 +27,45 @@ public class UserService {
     @Autowired
     private CarRepository carRepository;
 
-    public List<User> findAllUsers(){
+    public List<UserVO> findAllUsers(){
         logger.info("List all Users.");
-        return repository.findAll();
+        return UserMapper.toListVO(repository.findAll());
     }
 
-    public User findById(Long id){
+    public UserVO findById(Long id){
         logger.info("Search a user by id "+id+".");
         Optional<User> userFounded = repository.findById(id);
         userFounded(userFounded);
 
 
-        return userFounded.get();
+        return UserMapper.toVO(userFounded.get());
     }
 
-    public User update(User user){
+    public UserVO update(User user){
         logger.info("Update a user by "+user.getId()+".");
-        User userEntity = findById(user.getId());
+        Optional<User> userEntity = repository.findById(user.getId());
+        userFounded(userEntity);
 
-        userEntity.setFirstName(user.getFirstName());
-        userEntity.setLastName(user.getLastName());
-        userEntity.setEmail(user.getEmail());
-        userEntity.setBirthday(user.getBirthday());
-        userEntity.setLogin(user.getLogin());
-        userEntity.setPassword(user.getPassword());
-        userEntity.setPhone(user.getPhone());
-        userEntity.setDateLastLogin(new Date());
-        userEntity.setCars(user.getCars());
+        userEntity.get().setFirstName(user.getFirstName());
+        userEntity.get().setLastName(user.getLastName());
+        userEntity.get().setEmail(user.getEmail());
+        userEntity.get().setBirthday(user.getBirthday());
+        userEntity.get().setLogin(user.getLogin());
+        userEntity.get().setPassword(user.getPassword());
+        userEntity.get().setPhone(user.getPhone());
+        userEntity.get().setDateLastLogin(new Date());
+        userEntity.get().setCars(user.getCars());
 
-        return repository.save(userEntity);
+        return UserMapper.toVO(repository.save(userEntity.get()));
     }
 
     public void deleteById(Long id){
         logger.info("Delete a user by "+id+".");
-        User userEntity = findById(id);
-        repository.delete(userEntity);
+        Optional<User> userEntity = repository.findById(id);
+        userFounded(userEntity);
+        repository.delete(userEntity.get());
     }
-    public User save(User user){
+    public UserVO save(User user){
 
         if(!user.getCars().isEmpty()) {
             for (Car c : user.getCars()) {
@@ -78,7 +82,7 @@ public class UserService {
         userSaved.setCars(user.getCars());
         repository.save(userSaved);
 
-        return userSaved;
+        return UserMapper.toVO(userSaved);
     }
 
     private void userFounded(Optional<User> userEntity){

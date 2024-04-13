@@ -1,5 +1,6 @@
 package br.com.edwin.lima.controller;
 
+import br.com.edwin.lima.controller.data.vo.CarVO;
 import br.com.edwin.lima.entity.Car;
 import br.com.edwin.lima.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class CarController {
     private CarService service;
 
     @GetMapping
-    public ResponseEntity<List<Car>> listAllCars(){
+    public ResponseEntity<List<CarVO>> listAllCars(){
         return ResponseEntity.ok(service.findAll());
     }
 }

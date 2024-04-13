@@ -1,0 +1,44 @@
+package br.com.edwin.lima.controller.data.vo.mapper;
+
+import br.com.edwin.lima.controller.data.vo.CarVO;
+import br.com.edwin.lima.entity.Car;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class CarMapper {
+
+    public static CarVO toVO(Car entity){
+        CarVO vo = new CarVO();
+        vo.setId(entity.getId());
+        vo.setYear(entity.getYear());
+        vo.setColor(entity.getColor());
+        vo.setLicensePlate(entity.getLicensePlate());
+        vo.setModel(entity.getModel());
+        vo.setUser(vo.getUser());
+
+        return vo;
+    }
+
+    public static Car toEntity(CarVO vo){
+        Car entity = new Car();
+        entity.setId(vo.getId());
+        entity.setYear(vo.getYear());
+        entity.setColor(vo.getColor());
+        entity.setLicensePlate(vo.getLicensePlate());
+        entity.setModel(vo.getModel());
+        entity.setUser(UserMapper.toEntity(vo.getUser()));
+
+        return entity;
+    }
+    public static List<CarVO> toListVO(List<Car> entityListC){
+        return entityListC.stream()
+                .map(entity -> toVO(entity))
+                .collect(Collectors.toList());
+    }
+
+    public static List<Car> toListEntity(List<CarVO> entityListC){
+        return entityListC.stream()
+                .map(entity -> toEntity(entity))
+                .collect(Collectors.toList());
+    }
+}
