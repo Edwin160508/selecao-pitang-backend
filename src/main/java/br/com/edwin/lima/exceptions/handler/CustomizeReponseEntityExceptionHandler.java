@@ -1,6 +1,7 @@
 package br.com.edwin.lima.exceptions.handler;
 
 import br.com.edwin.lima.exceptions.ExceptionResponse;
+import br.com.edwin.lima.exceptions.InvalidFieldException;
 import br.com.edwin.lima.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,19 @@ public class CustomizeReponseEntityExceptionHandler {
         );
 
         return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = InvalidFieldException.class)
+    public ResponseEntity<ExceptionResponse>handleInvalidFieldExceptions(Exception ex, WebRequest request){
+
+        ExceptionResponse exceptionResponse = new ExceptionResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                new Date(),
+                ex.getMessage(),
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<ExceptionResponse>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
 
 

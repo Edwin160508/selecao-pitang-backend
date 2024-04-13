@@ -1,45 +1,30 @@
 package br.com.edwin.lima.controller.data.vo;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-
 import java.util.Date;
 import java.util.List;
-
 
 public class UserVO {
 
     private Long id;
 
-    @NotBlank
     private String firstName;
 
-    @NotBlank
     private String lastName;
 
-    @Email
     private String email;
 
-    @NotNull
     private Date birthday;
 
-    @NotBlank
     private String login;
 
-    @NotBlank
     private String password;
 
-    @NotBlank
     private String phone;
-
 
     private Date dateCreation;
 
     private Date dateLastLogin;
-    @NotNull
-    @NotEmpty
+    
     private List<CarVO> cars;
 
     public Long getId() {

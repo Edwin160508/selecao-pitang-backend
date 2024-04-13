@@ -1,25 +1,18 @@
 package br.com.edwin.lima.controller.data.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CarVO {
     private Long id;
 
-    @NotNull
     private Integer year;
 
-    @NotBlank
     private String licensePlate;
 
-    @NotBlank
     private String model;
 
-    @NotBlank
     private String color;
-
 
     private UserVO user;
 

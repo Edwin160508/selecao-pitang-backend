@@ -1,9 +1,7 @@
 package br.com.edwin.lima.controller;
 
 import br.com.edwin.lima.controller.data.vo.UserVO;
-import br.com.edwin.lima.entity.User;
 import br.com.edwin.lima.service.UserService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +29,12 @@ public class UserController {
     }
 
     @PostMapping
-    ResponseEntity<UserVO> saveUser(@Valid @RequestBody UserVO user){
+    ResponseEntity<UserVO> saveUser(@RequestBody UserVO user){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
     }
 
     @PutMapping
-    ResponseEntity<UserVO> updateUser(@Valid @RequestBody UserVO user){
+    ResponseEntity<UserVO> updateUser(@RequestBody UserVO user){
         return ResponseEntity.ok(service.update(user));
     }
 

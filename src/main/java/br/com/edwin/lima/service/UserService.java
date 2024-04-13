@@ -6,6 +6,7 @@ import br.com.edwin.lima.controller.data.vo.mapper.CarMapper;
 import br.com.edwin.lima.controller.data.vo.mapper.UserMapper;
 import br.com.edwin.lima.entity.Car;
 import br.com.edwin.lima.entity.User;
+import br.com.edwin.lima.exceptions.InvalidFieldException;
 import br.com.edwin.lima.exceptions.ResourceNotFoundException;
 import br.com.edwin.lima.repository.CarRepository;
 import br.com.edwin.lima.repository.UserRepository;
@@ -44,6 +45,7 @@ public class UserService {
 
     public UserVO update(UserVO vo){
         logger.info("Update a user by "+vo.getId()+".");
+        validateFieldsVO(vo);
         Optional<User> userEntity = repository.findById(vo.getId());
         userFounded(userEntity);
 
@@ -54,7 +56,6 @@ public class UserService {
         userEntity.get().setLogin(vo.getLogin());
         userEntity.get().setPassword(vo.getPassword());
         userEntity.get().setPhone(vo.getPhone());
-        userEntity.get().setDateLastLogin(new Date());
         userEntity.get().setCars(CarMapper.toListEntity(vo.getCars()));
 
 
@@ -68,14 +69,14 @@ public class UserService {
         repository.delete(userEntity.get());
     }
     public UserVO save(UserVO vo){
-
-        if(!vo.getCars().isEmpty()) {
-            for (CarVO c : vo.getCars()) {
-                UserVO u = new UserVO();
-                u.setId(1L);
-                c.setUser(u);
-            }
+        logger.info("Save a user.");
+        validateFieldsVO(vo);
+        for (CarVO c : vo.getCars()) {
+            UserVO u = new UserVO();
+            u.setId(1L);
+            c.setUser(u);
         }
+
         vo.setDateCreation(new Date());//set current dateCreation
         User userSaved = repository.save(UserMapper.toEntity(vo));
         for(Car c: userSaved.getCars()){
@@ -84,6 +85,34 @@ public class UserService {
         }
 
         return UserMapper.toVO(userSaved);
+    }
+
+    private void validateFieldsVO(UserVO vo){
+        logger.info("Validate fieds comming to VO user.");
+        if(vo.getFirstName() == null || vo.getFirstName().isEmpty()){
+            throw new InvalidFieldException("First Name field is required!");
+        }
+        if(vo.getLastName() == null || vo.getLastName().isEmpty()){
+            throw new InvalidFieldException("Last Name field is required!");
+        }
+        if(vo.getEmail() == null || vo.getEmail().isEmpty()){
+            throw new InvalidFieldException("E-mail field is required!");
+        }
+        if(vo.getBirthday() == null){
+            throw new InvalidFieldException("Birthday field is required!");
+        }
+        if(vo.getLogin() == null || vo.getLogin().isEmpty()){
+            throw new InvalidFieldException("Login field is required!");
+        }
+        if(vo.getPassword() == null || vo.getPassword().isEmpty()){
+            throw new InvalidFieldException("Password field is required!");
+        }
+        if(vo.getPhone() == null || vo.getPhone().isEmpty()){
+            throw new InvalidFieldException("Phone field is required!");
+        }
+        if(vo.getCars() == null || vo.getCars().size()==0){
+            throw new InvalidFieldException("Car fields is required!");
+        }
     }
 
     private void userFounded(Optional<User> userEntity){
