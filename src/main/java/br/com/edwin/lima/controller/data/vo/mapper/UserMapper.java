@@ -3,6 +3,7 @@ package br.com.edwin.lima.controller.data.vo.mapper;
 import br.com.edwin.lima.controller.data.vo.UserVO;
 import br.com.edwin.lima.entity.User;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class UserMapper {
@@ -31,7 +32,12 @@ public class UserMapper {
         entity.setEmail(vo.getEmail());
         entity.setPhone(vo.getPhone());
         entity.setDateLastLogin(vo.getDateLastLogin());
-        entity.setCars(CarMapper.toListEntity(vo.getCars()));
+        entity.setDateCreation(vo.getDateCreation());
+        entity.setLogin(vo.getLogin());
+        entity.setPassword(vo.getPassword());
+        if(Objects.nonNull(vo.getCars())) {
+            entity.setCars(CarMapper.toListEntity(vo.getCars()));
+        }
         entity.setId(vo.getId());
         return entity;
     }

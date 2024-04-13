@@ -37,7 +37,7 @@ public class User {
 
     @Column(name = "date_creation" ,nullable = false)
     private Date dateCreation;
-    @Column(name = "date_last_login" ,nullable = false)
+    @Column(name = "date_last_login" , nullable = true)
     private Date dateLastLogin;
 
 

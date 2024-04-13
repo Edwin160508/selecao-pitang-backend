@@ -31,12 +31,12 @@ public class UserController {
     }
 
     @PostMapping
-    ResponseEntity<UserVO> saveUser(@Valid @RequestBody User user){
+    ResponseEntity<UserVO> saveUser(@Valid @RequestBody UserVO user){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
     }
 
     @PutMapping
-    ResponseEntity<UserVO> updateUser(@Valid @RequestBody User user){
+    ResponseEntity<UserVO> updateUser(@Valid @RequestBody UserVO user){
         return ResponseEntity.ok(service.update(user));
     }
 

@@ -3,6 +3,7 @@ package br.com.edwin.lima.controller.data.vo.mapper;
 import br.com.edwin.lima.controller.data.vo.CarVO;
 import br.com.edwin.lima.entity.Car;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class CarMapper {
@@ -26,18 +27,20 @@ public class CarMapper {
         entity.setColor(vo.getColor());
         entity.setLicensePlate(vo.getLicensePlate());
         entity.setModel(vo.getModel());
-        entity.setUser(UserMapper.toEntity(vo.getUser()));
+        if(Objects.nonNull(vo.getUser())) {
+            entity.setUser(UserMapper.toEntity(vo.getUser()));
+        }
 
         return entity;
     }
-    public static List<CarVO> toListVO(List<Car> entityListC){
-        return entityListC.stream()
+    public static List<CarVO> toListVO(List<Car> entityList){
+        return entityList.stream()
                 .map(entity -> toVO(entity))
                 .collect(Collectors.toList());
     }
 
-    public static List<Car> toListEntity(List<CarVO> entityListC){
-        return entityListC.stream()
+    public static List<Car> toListEntity(List<CarVO> voList){
+        return voList.stream()
                 .map(entity -> toEntity(entity))
                 .collect(Collectors.toList());
     }

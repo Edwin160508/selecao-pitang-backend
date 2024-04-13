@@ -1,6 +1,8 @@
 package br.com.edwin.lima.service;
 
+import br.com.edwin.lima.controller.data.vo.CarVO;
 import br.com.edwin.lima.controller.data.vo.UserVO;
+import br.com.edwin.lima.controller.data.vo.mapper.CarMapper;
 import br.com.edwin.lima.controller.data.vo.mapper.UserMapper;
 import br.com.edwin.lima.entity.Car;
 import br.com.edwin.lima.entity.User;
@@ -17,7 +19,6 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
-@Transactional
 public class UserService {
     private Logger logger = Logger.getLogger(UserService.class.getName());
 
@@ -26,7 +27,7 @@ public class UserService {
 
     @Autowired
     private CarRepository carRepository;
-
+    @Transactional
     public List<UserVO> findAllUsers(){
         logger.info("List all Users.");
         return UserMapper.toListVO(repository.findAll());
@@ -41,20 +42,21 @@ public class UserService {
         return UserMapper.toVO(userFounded.get());
     }
 
-    public UserVO update(User user){
-        logger.info("Update a user by "+user.getId()+".");
-        Optional<User> userEntity = repository.findById(user.getId());
+    public UserVO update(UserVO vo){
+        logger.info("Update a user by "+vo.getId()+".");
+        Optional<User> userEntity = repository.findById(vo.getId());
         userFounded(userEntity);
 
-        userEntity.get().setFirstName(user.getFirstName());
-        userEntity.get().setLastName(user.getLastName());
-        userEntity.get().setEmail(user.getEmail());
-        userEntity.get().setBirthday(user.getBirthday());
-        userEntity.get().setLogin(user.getLogin());
-        userEntity.get().setPassword(user.getPassword());
-        userEntity.get().setPhone(user.getPhone());
+        userEntity.get().setFirstName(vo.getFirstName());
+        userEntity.get().setLastName(vo.getLastName());
+        userEntity.get().setEmail(vo.getEmail());
+        userEntity.get().setBirthday(vo.getBirthday());
+        userEntity.get().setLogin(vo.getLogin());
+        userEntity.get().setPassword(vo.getPassword());
+        userEntity.get().setPhone(vo.getPhone());
         userEntity.get().setDateLastLogin(new Date());
-        userEntity.get().setCars(user.getCars());
+        userEntity.get().setCars(CarMapper.toListEntity(vo.getCars()));
+
 
         return UserMapper.toVO(repository.save(userEntity.get()));
     }
@@ -65,22 +67,21 @@ public class UserService {
         userFounded(userEntity);
         repository.delete(userEntity.get());
     }
-    public UserVO save(User user){
+    public UserVO save(UserVO vo){
 
-        if(!user.getCars().isEmpty()) {
-            for (Car c : user.getCars()) {
-                User u = new User();
+        if(!vo.getCars().isEmpty()) {
+            for (CarVO c : vo.getCars()) {
+                UserVO u = new UserVO();
                 u.setId(1L);
                 c.setUser(u);
             }
-        }//else{throw new EmptyCars}
-        User userSaved = repository.save(user);
-        for (Car c : user.getCars()) {
+        }
+        vo.setDateCreation(new Date());//set current dateCreation
+        User userSaved = repository.save(UserMapper.toEntity(vo));
+        for(Car c: userSaved.getCars()){
             c.setUser(userSaved);
             carRepository.save(c);
         }
-        userSaved.setCars(user.getCars());
-        repository.save(userSaved);
 
         return UserMapper.toVO(userSaved);
     }
