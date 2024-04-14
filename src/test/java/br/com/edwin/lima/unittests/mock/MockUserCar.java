@@ -37,6 +37,16 @@ public class MockUserCar {
         return carList;
     }
 
+    public List<User> mockUserEntityList(){
+        List<User> userEntityList = new ArrayList<>();
+        for(long index=0; index<9; index++){
+            User vo = mockUserEntity(index);
+            userEntityList.add(vo);
+        }
+
+        return userEntityList;
+    }
+
     public Car mockCarEntity(Long id){
         Car entity = new Car();
         entity.setId(id);
