@@ -14,4 +14,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.login =:login")
     public User findUserByLogin(@Param("login") String login);
 
+    @Query("SELECT u FROM User u ORDER BY u.login")
+    public List<User> findAllUsers();
+
 }

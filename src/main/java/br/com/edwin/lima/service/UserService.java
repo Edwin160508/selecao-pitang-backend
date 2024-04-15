@@ -31,7 +31,7 @@ public class UserService {
     @Transactional
     public List<UserVO> findAllUsers(){
         logger.info("List all Users.");
-        return UserMapper.toListVO(repository.findAll());
+        return UserMapper.toListVO(repository.findAllUsers());
     }
 
     public UserVO findById(Long id){
