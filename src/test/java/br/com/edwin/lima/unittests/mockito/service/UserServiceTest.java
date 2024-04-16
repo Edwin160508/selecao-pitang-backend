@@ -61,7 +61,7 @@ public class UserServiceTest {
     @Test
     public void findAllTest(){
         List<User> userEntityList = inputObject.mockUserEntityList();
-        Mockito.when(repository.findAll()).thenReturn(userEntityList);
+        Mockito.when(repository.findAllUsers()).thenReturn(userEntityList);
         List<UserVO> userVOList = UserMapper.toListVO(userEntityList);
 
         var results = service.findAllUsers();
