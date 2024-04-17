@@ -13,7 +13,8 @@ public class UserVO {
 
     private String email;
 
-    private Date birthday;
+    private String birthdayString;
+
 
     private String login;
 
@@ -59,12 +60,12 @@ public class UserVO {
         this.email = email;
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public String getBirthdayString() {
+        return birthdayString;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setBirthdayString(String birthdayString) {
+        this.birthdayString = birthdayString;
     }
 
     public String getLogin() {

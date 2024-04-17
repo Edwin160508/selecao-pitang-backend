@@ -10,10 +10,12 @@ import br.com.edwin.lima.exceptions.InvalidFieldException;
 import br.com.edwin.lima.exceptions.ResourceNotFoundException;
 import br.com.edwin.lima.repository.CarRepository;
 import br.com.edwin.lima.repository.UserRepository;
+import br.com.edwin.lima.utils.DateUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -43,21 +45,24 @@ public class UserService {
         return UserMapper.toVO(userFounded.get());
     }
 
-    public UserVO update(UserVO vo){
+    public UserVO update(UserVO vo) {
         logger.info("Update a user by "+vo.getId()+".");
         validateFieldsVO(vo);
         Optional<User> userEntity = repository.findById(vo.getId());
         userFounded(userEntity);
 
-        userEntity.get().setFirstName(vo.getFirstName());
-        userEntity.get().setLastName(vo.getLastName());
-        userEntity.get().setEmail(vo.getEmail());
-        userEntity.get().setBirthday(vo.getBirthday());
-        userEntity.get().setLogin(vo.getLogin());
-        userEntity.get().setPassword(vo.getPassword());
-        userEntity.get().setPhone(vo.getPhone());
-        userEntity.get().setCars(CarMapper.toListEntity(vo.getCars()));
-
+        try {
+            userEntity.get().setFirstName(vo.getFirstName());
+            userEntity.get().setLastName(vo.getLastName());
+            userEntity.get().setEmail(vo.getEmail());
+            userEntity.get().setLogin(vo.getLogin());
+            userEntity.get().setPassword(vo.getPassword());
+            userEntity.get().setPhone(vo.getPhone());
+            userEntity.get().setCars(CarMapper.toListEntity(vo.getCars()));
+            userEntity.get().setBirthday(DateUtil.convertStringtoDate(vo.getBirthdayString()));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
 
         return UserMapper.toVO(repository.save(userEntity.get()));
     }
@@ -78,7 +83,12 @@ public class UserService {
         }
 
         vo.setDateCreation(new Date());//set current dateCreation
-        User userSaved = repository.save(UserMapper.toEntity(vo));
+        User userSaved = null;
+        try {
+            userSaved = repository.save(UserMapper.toEntity(vo));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         for(Car c: userSaved.getCars()){
             c.setUser(userSaved);
             carRepository.save(c);
@@ -98,7 +108,7 @@ public class UserService {
         if(vo.getEmail() == null || vo.getEmail().isEmpty()){
             throw new InvalidFieldException("E-mail field is required!");
         }
-        if(vo.getBirthday() == null){
+        if(vo.getBirthdayString() == null){
             throw new InvalidFieldException("Birthday field is required!");
         }
         if(vo.getLogin() == null || vo.getLogin().isEmpty()){

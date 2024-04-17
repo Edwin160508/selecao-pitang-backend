@@ -2,6 +2,9 @@ package br.com.edwin.lima.controller.data.vo.mapper;
 
 import br.com.edwin.lima.controller.data.vo.UserVO;
 import br.com.edwin.lima.entity.User;
+import br.com.edwin.lima.utils.DateUtil;
+
+import java.text.ParseException;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -12,7 +15,7 @@ public class UserMapper {
         UserVO vo = new UserVO();
         vo.setFirstName(entity.getFirstName());
         vo.setLastName(entity.getLastName());
-        vo.setBirthday(entity.getBirthday());
+        vo.setBirthdayString(DateUtil.convertDateToString(entity.getBirthday()));
         vo.setEmail(entity.getEmail());
         vo.setPhone(entity.getPhone());
         vo.setDateLastLogin(entity.getDateLastLogin());
@@ -24,11 +27,13 @@ public class UserMapper {
         return vo;
     }
 
-    public static User toEntity(UserVO vo){
+    public static User toEntity(UserVO vo) throws ParseException {
         User entity = new User();
         entity.setFirstName(vo.getFirstName());
         entity.setLastName(vo.getLastName());
-        entity.setBirthday(vo.getBirthday());
+        if(Objects.nonNull(vo.getBirthdayString())) {
+            entity.setBirthday(DateUtil.convertStringtoDate(vo.getBirthdayString()));
+        }
         entity.setEmail(vo.getEmail());
         entity.setPhone(vo.getPhone());
         entity.setDateLastLogin(vo.getDateLastLogin());

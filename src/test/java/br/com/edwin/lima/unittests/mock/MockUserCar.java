@@ -66,7 +66,8 @@ public class MockUserCar {
         UserVO vo = new UserVO();
         vo.setFirstName("First name "+id);
         vo.setLastName("Last name "+id);
-        vo.setBirthday(new Date());
+//        vo.setBirthday(new Date());
+        vo.setBirthdayString("1988-09-01");
         vo.setEmail("email@email.com.br");
         vo.setPhone("(99)99999-9999");
         vo.setDateLastLogin(new Date());
