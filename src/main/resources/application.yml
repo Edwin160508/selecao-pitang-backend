@@ -27,4 +27,8 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: false
+spring-doc:
+
+  swagger-ui:
+    use-root-path: true
 
