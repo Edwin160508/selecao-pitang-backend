@@ -1,6 +1,5 @@
 package br.com.edwin.lima.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.Date;

@@ -3,7 +3,6 @@ package br.com.edwin.lima.exceptions.handler;
 import br.com.edwin.lima.exceptions.ExceptionResponse;
 import br.com.edwin.lima.exceptions.InvalidFieldException;
 import br.com.edwin.lima.exceptions.ResourceNotFoundException;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
