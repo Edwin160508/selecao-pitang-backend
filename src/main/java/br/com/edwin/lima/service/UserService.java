@@ -17,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -26,7 +29,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private Logger logger = Logger.getLogger(UserService.class.getName());
 
     @Autowired
@@ -34,6 +37,12 @@ public class UserService {
 
     @Autowired
     private CarRepository carRepository;
+
+    public UserService(UserRepository repository, CarRepository carRepository) {
+        this.repository = repository;
+        this.carRepository = carRepository;
+    }
+
     @Transactional
     public List<UserVO> findAllUsers(){
         logger.info("List all Users.");
@@ -148,4 +157,14 @@ public class UserService {
     }
 
 
+    @Override
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+        logger.info("Finding one user by name " + login + "!");
+        var user = repository.findUserByLogin(login);
+        if (user != null) {
+            return user;
+        } else {
+            throw new UsernameNotFoundException("Username " + login + " not found!");
+        }
+    }
 }
