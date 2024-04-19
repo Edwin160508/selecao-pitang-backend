@@ -1,5 +1,5 @@
 cors:
-  originPatterns: http://localhost:4200, http://localhost:8080
+  originPatterns: http://localhost:4200,http://localhost:8080
 server:
   servlet:
     context-path: /api
