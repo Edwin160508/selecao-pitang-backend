@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,5 +52,34 @@ public class CarController {
             })
     public ResponseEntity<List<CarVO>> listAllCars(){
         return ResponseEntity.ok(service.findAll());
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Find a Car", description = "Finds a Car by id",
+            tags = "Cars",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )}),
+                    @ApiResponse(
+                            description = "Bad Request",
+                            responseCode = "400",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )}),
+                    @ApiResponse(
+                            description = "Unauthorized",
+                            responseCode = "401",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )}),
+                    @ApiResponse(
+                            description = "Not Found",
+                            responseCode = "404",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )}),
+                    @ApiResponse(
+                            description = "Internal Error",
+                            responseCode = "500",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )})
+            })
+    public ResponseEntity<CarVO> findById(@PathVariable(value = "id") Long key){
+        return ResponseEntity.ok(service.findById(key));
     }
 }

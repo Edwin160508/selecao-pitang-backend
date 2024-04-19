@@ -23,7 +23,7 @@ public class UserMapper {
         vo.setCars(CarMapper.toListVO(entity.getCars()));
         vo.setLogin(entity.getLogin());
         vo.setPassword(entity.getPassword());
-        vo.setId(entity.getId());
+        vo.setKey(entity.getId());
         return vo;
     }
 
@@ -43,7 +43,7 @@ public class UserMapper {
         if(Objects.nonNull(vo.getCars())) {
             entity.setCars(CarMapper.toListEntity(vo.getCars()));
         }
-        entity.setId(vo.getId());
+        entity.setId(vo.getKey());
         return entity;
     }
 

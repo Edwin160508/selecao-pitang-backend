@@ -1,11 +1,13 @@
 package br.com.edwin.lima.controller.data.vo;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import java.util.Date;
 import java.util.List;
 
-public class UserVO {
+public class UserVO extends RepresentationModel<UserVO> {
 
-    private Long id;
+    private Long key;
 
     private String firstName;
 
@@ -28,12 +30,12 @@ public class UserVO {
     
     private List<CarVO> cars;
 
-    public Long getId() {
-        return id;
+    public Long getKey() {
+        return key;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public String getFirstName() {

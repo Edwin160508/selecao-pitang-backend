@@ -75,7 +75,7 @@ public class MockUserCar {
         vo.setLogin("Login"+id);
         vo.setPassword("ajsifjas");
         vo.setCars(mockCarVOList(id));
-        vo.setId(id);
+        vo.setKey(id);
         return vo;
     }
 
@@ -92,14 +92,14 @@ public class MockUserCar {
 
     public CarVO mockCarVO(Long id){
         CarVO vo = new CarVO();
-        vo.setId(id);
+        vo.setKey(id);
         vo.setColor("Color "+id);
         vo.setYear(2024);
         vo.setModel("Model "+id);
         vo.setLicensePlate("ABC12"+id);
 
         UserVO user = new UserVO();
-        user.setId(id);
+        user.setKey(id);
         vo.setUser(user);
         return vo;
     }

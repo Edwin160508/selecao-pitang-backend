@@ -1,10 +1,11 @@
 package br.com.edwin.lima.controller.data.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.springframework.hateoas.RepresentationModel;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CarVO {
-    private Long id;
+public class CarVO extends RepresentationModel<CarVO> {
+    private Long key;
 
     private Integer year;
 
@@ -16,12 +17,12 @@ public class CarVO {
 
     private UserVO user;
 
-    public Long getId() {
-        return id;
+    public Long getKey() {
+        return key;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public Integer getYear() {

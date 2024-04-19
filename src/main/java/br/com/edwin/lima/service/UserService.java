@@ -1,5 +1,6 @@
 package br.com.edwin.lima.service;
 
+import br.com.edwin.lima.controller.UserController;
 import br.com.edwin.lima.controller.data.vo.CarVO;
 import br.com.edwin.lima.controller.data.vo.UserVO;
 import br.com.edwin.lima.controller.data.vo.mapper.CarMapper;
@@ -13,6 +14,9 @@ import br.com.edwin.lima.repository.UserRepository;
 import br.com.edwin.lima.utils.DateUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
@@ -33,7 +37,9 @@ public class UserService {
     @Transactional
     public List<UserVO> findAllUsers(){
         logger.info("List all Users.");
-        return UserMapper.toListVO(repository.findAllUsers());
+        var userListVOs = UserMapper.toListVO(repository.findAllUsers());
+        userListVOs.stream().forEach(userVO -> addSelfRefHateoas(userVO));
+        return userListVOs;
     }
 
     public UserVO findById(Long id){
@@ -41,14 +47,15 @@ public class UserService {
         Optional<User> userFounded = repository.findById(id);
         userFounded(userFounded);
 
-
-        return UserMapper.toVO(userFounded.get());
+        var userFoundedVO = UserMapper.toVO(userFounded.get());
+        addSelfRefHateoas(userFoundedVO);
+        return userFoundedVO;
     }
 
     public UserVO update(UserVO vo) {
-        logger.info("Update a user by "+vo.getId()+".");
+        logger.info("Update a user by "+vo.getKey()+".");
         validateFieldsVO(vo);
-        Optional<User> userEntity = repository.findById(vo.getId());
+        Optional<User> userEntity = repository.findById(vo.getKey());
         userFounded(userEntity);
 
         try {
@@ -64,7 +71,9 @@ public class UserService {
             throw new RuntimeException(e);
         }
 
-        return UserMapper.toVO(repository.save(userEntity.get()));
+        var userSavedVO = UserMapper.toVO(repository.save(userEntity.get()));
+        addSelfRefHateoas(userSavedVO);
+        return userSavedVO;
     }
 
     public void deleteById(Long id){
@@ -78,7 +87,7 @@ public class UserService {
         validateFieldsVO(vo);
         for (CarVO c : vo.getCars()) {
             UserVO u = new UserVO();
-            u.setId(1L);
+            u.setKey(1L);
             c.setUser(u);
         }
 
@@ -94,7 +103,9 @@ public class UserService {
             carRepository.save(c);
         }
 
-        return UserMapper.toVO(userSaved);
+        var userSavedVO = UserMapper.toVO(userSaved);
+        addSelfRefHateoas(userSavedVO);
+        return userSavedVO;
     }
 
     private void validateFieldsVO(UserVO vo){
@@ -129,6 +140,11 @@ public class UserService {
         if(!userEntity.isPresent()){
             throw new ResourceNotFoundException("No records found for this ID!");
         }
+    }
+
+    private void addSelfRefHateoas(UserVO userVO){
+        var withSelfRef = linkTo(methodOn(UserController.class).findById(userVO.getKey())).withSelfRel();
+        userVO.add(withSelfRef);
     }
 
 

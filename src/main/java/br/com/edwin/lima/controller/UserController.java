@@ -79,7 +79,7 @@ public class UserController {
                             responseCode = "500",
                             content = {@Content(array = @ArraySchema(schema = @Schema(implementation = UserVO.class)) )})
             })
-    ResponseEntity<UserVO> findById(@PathVariable(value = "id") Long id){
+    public ResponseEntity<UserVO> findById(@PathVariable(value = "id") Long id){
         return ResponseEntity.ok(service.findById(id));
     }
 

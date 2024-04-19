@@ -26,7 +26,7 @@ public class UserCarMapperTest {
         User user = inputObject.mockUserEntity(1L);
         UserVO userVO = UserMapper.toVO(user);
         verifyCarListItens(user.getCars(), userVO.getCars());
-        Assertions.assertEquals(user.getId(), userVO.getId());
+        Assertions.assertEquals(user.getId(), userVO.getKey());
         Assertions.assertEquals(user.getFirstName(), userVO.getFirstName());
         Assertions.assertEquals(user.getLastName(), userVO.getLastName());
 //        Assertions.assertEquals(user.getBirthday(), userVO.getBirthday());
@@ -41,7 +41,7 @@ public class UserCarMapperTest {
     private void verifyCarListItens(List<Car> carEntityList, List<CarVO> carVOList){
         Assertions.assertEquals(carEntityList.size(), carVOList.size());
         for(int i = 0; i < carVOList.size(); i++){
-            Assertions.assertEquals(carVOList.get(i).getId(), carEntityList.get(i).getId());
+            Assertions.assertEquals(carVOList.get(i).getKey(), carEntityList.get(i).getId());
             Assertions.assertEquals(carVOList.get(i).getYear(), carEntityList.get(i).getYear());
             Assertions.assertEquals(carVOList.get(i).getLicensePlate(), carEntityList.get(i).getLicensePlate());
             Assertions.assertEquals(carVOList.get(i).getColor(), carEntityList.get(i).getColor());
@@ -54,7 +54,7 @@ public class UserCarMapperTest {
         UserVO userVO = inputObject.mockUserVO(1L);
         User user = UserMapper.toEntity(userVO);
         verifyCarListItens(user.getCars(), userVO.getCars());
-        Assertions.assertEquals(userVO.getId(), user.getId());
+        Assertions.assertEquals(userVO.getKey(), user.getId());
         Assertions.assertEquals(userVO.getFirstName(), user.getFirstName());
         Assertions.assertEquals(userVO.getLastName(), user.getLastName());
         //Assertions.assertEquals(userVO.getBirthday(), user.getBirthday());

@@ -56,6 +56,12 @@
 			<artifactId>flyway-core</artifactId>
 		</dependency>
 
+		<!--HATEOAS-->
+		<dependency>
+			<groupId>org.springframework.hateoas</groupId>
+			<artifactId>spring-hateoas</artifactId>
+		</dependency>
+
 		<!--Mockito-->
 		<dependency>
 			<groupId>org.mockito</groupId>

@@ -73,7 +73,7 @@ public class UserServiceTest {
     private void verifyUserListItens(List<UserVO> userList, List<UserVO> results){
         Assertions.assertEquals(userList.size(), results.size());
         for(int i = 0; i < userList.size(); i++){
-            Assertions.assertEquals(userList.get(i).getId(), results.get(i).getId());
+            Assertions.assertEquals(userList.get(i).getKey(), results.get(i).getKey());
             Assertions.assertEquals(userList.get(i).getFirstName(), results.get(i).getFirstName());
             Assertions.assertEquals(userList.get(i).getLastName(), results.get(i).getLastName());
             Assertions.assertEquals(userList.get(i).getEmail(), results.get(i).getEmail());

@@ -12,7 +12,7 @@ public class CarMapper {
 
     public static CarVO toVO(Car entity){
         CarVO vo = new CarVO();
-        vo.setId(entity.getId());
+        vo.setKey(entity.getId());
         vo.setYear(entity.getYear());
         vo.setColor(entity.getColor());
         vo.setLicensePlate(entity.getLicensePlate());
@@ -24,7 +24,7 @@ public class CarMapper {
 
     public static Car toEntity(CarVO vo) throws ParseException {
         Car entity = new Car();
-        entity.setId(vo.getId());
+        entity.setId(vo.getKey());
         entity.setYear(vo.getYear());
         entity.setColor(vo.getColor());
         entity.setLicensePlate(vo.getLicensePlate());
