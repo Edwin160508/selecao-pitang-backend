@@ -44,6 +44,10 @@ public class UserMapper {
             entity.setCars(CarMapper.toListEntity(vo.getCars()));
         }
         entity.setId(vo.getKey());
+        entity.setAccountNonExpired(true);
+        entity.setAccountNonLocked(true);
+        entity.setCredentialsNonExpired(true);
+        entity.setEnabled(true);
         return entity;
     }
 

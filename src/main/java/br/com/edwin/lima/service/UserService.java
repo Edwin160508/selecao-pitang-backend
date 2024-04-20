@@ -12,6 +12,7 @@ import br.com.edwin.lima.exceptions.ResourceNotFoundException;
 import br.com.edwin.lima.repository.CarRepository;
 import br.com.edwin.lima.repository.UserRepository;
 import br.com.edwin.lima.utils.DateUtil;
+import br.com.edwin.lima.utils.EncoderUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -68,11 +69,14 @@ public class UserService implements UserDetailsService {
         userFounded(userEntity);
 
         try {
+            if(!userEntity.get().getPassword().equals(vo.getPassword())){
+                String encriptyPassword = EncoderUtil.encodePassword(vo.getPassword()).substring("{pbkdf2}".length());
+                userEntity.get().setPassword(encriptyPassword);
+            }
             userEntity.get().setFirstName(vo.getFirstName());
             userEntity.get().setLastName(vo.getLastName());
             userEntity.get().setEmail(vo.getEmail());
             userEntity.get().setLogin(vo.getLogin());
-            userEntity.get().setPassword(vo.getPassword());
             userEntity.get().setPhone(vo.getPhone());
             userEntity.get().setCars(CarMapper.toListEntity(vo.getCars()));
             userEntity.get().setBirthday(DateUtil.convertStringtoDate(vo.getBirthdayString()));
@@ -99,7 +103,8 @@ public class UserService implements UserDetailsService {
             u.setKey(1L);
             c.setUser(u);
         }
-
+        String encriptyPassword = EncoderUtil.encodePassword(vo.getPassword()).substring("{pbkdf2}".length());
+        vo.setPassword(encriptyPassword);
         vo.setDateCreation(new Date());//set current dateCreation
         User userSaved = null;
         try {
