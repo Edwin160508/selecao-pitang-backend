@@ -1,6 +1,9 @@
 package br.com.edwin.lima.controller.data.vo.security;
 
+import br.com.edwin.lima.controller.data.vo.CarVO;
+
 import java.util.Date;
+import java.util.List;
 
 public class TokenVO {
     private String login;
@@ -10,6 +13,9 @@ public class TokenVO {
     private String accessToken;
     private String refreshToken;
 
+    private List<CarVO> cars;
+
+    private Long keyUser;
     public TokenVO() {}
 
     public TokenVO(
@@ -72,5 +78,21 @@ public class TokenVO {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public List<CarVO> getCars() {
+        return cars;
+    }
+
+    public void setCars(List<CarVO> cars) {
+        this.cars = cars;
+    }
+
+    public Long getKeyUser() {
+        return keyUser;
+    }
+
+    public void setKeyUser(Long keyUser) {
+        this.keyUser = keyUser;
     }
 }

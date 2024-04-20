@@ -10,10 +10,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -81,5 +78,64 @@ public class CarController {
             })
     public ResponseEntity<CarVO> findById(@PathVariable(value = "id") Long key){
         return ResponseEntity.ok(service.findById(key));
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Remove a Car", description = "Remove a Car by id",
+            tags = "Cars",
+            responses = {
+                    @ApiResponse(
+                            description = "No Content",
+                            responseCode = "204",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )}),
+                    @ApiResponse(
+                            description = "Bad Request",
+                            responseCode = "400",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )}),
+                    @ApiResponse(
+                            description = "Unauthorized",
+                            responseCode = "401",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )}),
+                    @ApiResponse(
+                            description = "Not Found",
+                            responseCode = "404",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )}),
+                    @ApiResponse(
+                            description = "Internal Error",
+                            responseCode = "500",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )})
+            })
+    public ResponseEntity remove(@PathVariable(value = "id") Long id){
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    @Operation(summary = "Update a Car", description = "Update a Car by id",
+            tags = "Cars",
+            responses = {
+                    @ApiResponse(
+                            description = "Success",
+                            responseCode = "200",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )}),
+                    @ApiResponse(
+                            description = "Bad Request",
+                            responseCode = "400",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )}),
+                    @ApiResponse(
+                            description = "Unauthorized",
+                            responseCode = "401",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )}),
+                    @ApiResponse(
+                            description = "Not Found",
+                            responseCode = "404",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )}),
+                    @ApiResponse(
+                            description = "Internal Error",
+                            responseCode = "500",
+                            content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )})
+            })
+    public ResponseEntity<CarVO> updateCar(@RequestBody CarVO carVO){
+        return ResponseEntity.ok(service.update(carVO));
     }
 }

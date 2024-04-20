@@ -1,5 +1,6 @@
 package br.com.edwin.lima.service;
 
+import br.com.edwin.lima.controller.data.vo.mapper.CarMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -37,6 +38,8 @@ public class AuthService {
             var tokenResponse = new TokenVO();
             if (user != null) {
                 tokenResponse = tokenProvider.createAccessToken(login, user.getRoles());
+                tokenResponse.setCars(CarMapper.toListVO(user.getCars()));
+                tokenResponse.setKeyUser(user.getId());
             } else {
                 throw new UsernameNotFoundException("Username " + login + " not found!");
             }

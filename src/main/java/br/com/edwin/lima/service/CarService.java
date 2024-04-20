@@ -4,12 +4,14 @@ import br.com.edwin.lima.controller.CarController;
 import br.com.edwin.lima.controller.data.vo.CarVO;
 import br.com.edwin.lima.controller.data.vo.mapper.CarMapper;
 import br.com.edwin.lima.entity.Car;
+import br.com.edwin.lima.exceptions.InvalidFieldException;
 import br.com.edwin.lima.exceptions.ResourceNotFoundException;
 import br.com.edwin.lima.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.logging.Logger;
 
@@ -51,4 +53,44 @@ public class CarService {
         var withSelfRef = linkTo(methodOn(CarController.class).findById(carVO.getKey())).withSelfRel();
         carVO.add(withSelfRef);
     }
+
+    public void deleteById(Long id) {
+        logger.info("Delete a car by "+id+".");
+        Optional<Car> carEntity = repository.findById(id);
+        carFounded(carEntity);
+        repository.delete(carEntity.get());
+    }
+
+    private void validateFieldsVO(CarVO vo){
+        if(Objects.isNull(vo.getColor()) || vo.getColor().isEmpty()){
+            throw new InvalidFieldException("Color field is required!");
+        }
+        if(Objects.isNull(vo.getModel()) || vo.getModel().isEmpty()){
+            throw new InvalidFieldException("Model field is required!");
+        }
+        if(Objects.isNull(vo.getLicensePlate()) || vo.getLicensePlate().isEmpty()){
+            throw new InvalidFieldException("License Plate field is required!");
+        }
+        if(Objects.isNull(vo.getUser())){
+            throw new InvalidFieldException("User field is required!");
+        }
+        if(Objects.isNull(vo.getYear()) || vo.getYear() == 0){
+            throw new InvalidFieldException("Year field is required!");
+        }
+    }
+    public CarVO update(CarVO vo) {
+        logger.info("Update a car by id "+vo.getKey()+".");
+        validateFieldsVO(vo);
+        Optional<Car> carEntity = repository.findById(vo.getKey());
+        carFounded(carEntity);
+        carEntity.get().setModel(vo.getModel());
+        carEntity.get().setYear(vo.getYear());
+        carEntity.get().setLicensePlate(vo.getLicensePlate());
+        carEntity.get().setColor(vo.getColor());
+
+        CarVO carVOUpdated = CarMapper.toVO(carEntity.get());
+        addSelfRefHateoas(carVOUpdated);
+        return carVOUpdated;
+    }
+
 }
