@@ -27,9 +27,9 @@ public class CarService {
     @Autowired
     private CarRepository repository;
 
-    public List<CarVO> findAll(){
+    public List<CarVO> findAllCarsByUser(Long keyUser){
         logger.info("Try list all Cars.");
-        var carListVOs = CarMapper.toListVO(repository.findAll());
+        var carListVOs = CarMapper.toListVO(repository.findAllCarsByUserId(keyUser));
         carListVOs.stream().forEach(carVO -> addSelfRefHateoas(carVO));
         return carListVOs;
     }

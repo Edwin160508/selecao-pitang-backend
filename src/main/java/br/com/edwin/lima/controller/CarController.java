@@ -24,8 +24,9 @@ public class CarController {
     @Autowired
     private CarService service;
 
-    @GetMapping
-    @Operation(summary = "Finds all Cars", description = "Finds all Cars",
+
+    @GetMapping("/user/{key}")
+    @Operation(summary = "Finds all Cars", description = "Finds all Cars by user id",
             tags = "Cars",
             responses = {
                     @ApiResponse(
@@ -49,8 +50,8 @@ public class CarController {
                             responseCode = "500",
                             content = {@Content(array = @ArraySchema(schema = @Schema(implementation = CarVO.class)) )})
             })
-    public ResponseEntity<List<CarVO>> listAllCars(){
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<CarVO>> listAllCars(@PathVariable(value = "key") Long key){
+        return ResponseEntity.ok(service.findAllCarsByUser(key));
     }
 
     @GetMapping("/{id}")

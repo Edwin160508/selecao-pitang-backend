@@ -79,7 +79,7 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/users/**").permitAll()
-                                .requestMatchers("/cars").authenticated()
+                                .requestMatchers("/cars/**").authenticated()
                 );
         return http.build();
     }
