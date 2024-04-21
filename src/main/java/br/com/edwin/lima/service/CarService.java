@@ -10,6 +10,7 @@ import br.com.edwin.lima.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -88,9 +89,22 @@ public class CarService {
         carEntity.get().setLicensePlate(vo.getLicensePlate());
         carEntity.get().setColor(vo.getColor());
 
-        CarVO carVOUpdated = CarMapper.toVO(carEntity.get());
+        CarVO carVOUpdated = CarMapper.toVO(repository.save(carEntity.get()));
         addSelfRefHateoas(carVOUpdated);
         return carVOUpdated;
     }
 
+    public CarVO save(CarVO vo){
+        logger.info("Save a car.");
+        validateFieldsVO(vo);
+        Car carSaved = null;
+        try {
+            carSaved = repository.save(CarMapper.toEntity(vo));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        CarVO carVOSaved = CarMapper.toVO(carSaved);
+        addSelfRefHateoas(carVOSaved);
+        return carVOSaved;
+    }
 }
