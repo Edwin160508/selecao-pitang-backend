@@ -22,11 +22,12 @@ spring:
     #username: sa
     #password:
     #postgres configuration ---------
-    url: jdbc:postgresql://localhost:5432/postgresdb
+    #url: jdbc:postgresql://localhost:5432/postgresdb
+    url: jdbc:postgresql://ec2-44-213-151-75.compute-1.amazonaws.com:5432/desebsdhvf5aba
     generate-unique-name: false
     driver-class-name: org.postgresql.Driver
-    username: postgres
-    password: postgres
+    username: axkmxrvuqpqytl
+    password: a48f47d22467894755c85d53890c5514dd57f972a712c65234d14afbe6471032
   jpa:
     #database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: false
