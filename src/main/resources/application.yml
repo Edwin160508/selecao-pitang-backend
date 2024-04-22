@@ -23,11 +23,11 @@ spring:
     #password:
     #postgres configuration ---------
     #url: jdbc:postgresql://localhost:5432/postgresdb
-    url: jdbc:postgresql://ec2-44-213-151-75.compute-1.amazonaws.com:5432/desebsdhvf5aba
+    url: jdbc:postgresql://ec2-35-169-9-79.compute-1.amazonaws.com:5432/d48o8qdf1m28j7
     generate-unique-name: false
     driver-class-name: org.postgresql.Driver
-    username: axkmxrvuqpqytl
-    password: a48f47d22467894755c85d53890c5514dd57f972a712c65234d14afbe6471032
+    username: oyczcgmprwrmje
+    password: 78101f8a59640c34cccc6b7d99a4816d0e5c20f5f20f5f1b597e3882efb66223
   jpa:
     #database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: false
