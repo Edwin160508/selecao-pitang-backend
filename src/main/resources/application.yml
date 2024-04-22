@@ -1,5 +1,5 @@
 cors:
-  originPatterns: http://localhost:4200,http://localhost:8080
+  originPatterns: https://app-selecao-pitang-frontend-be6e4be9bb42.herokuapp.com,http://localhost:4200,http://localhost:8080
 
 security:
   jwt:
@@ -21,13 +21,16 @@ spring:
     #driver-class-name: org.h2.Driver
     #username: sa
     #password:
-    #postgres configuration ---------
-    #url: jdbc:postgresql://localhost:5432/postgresdb
-    url: jdbc:postgresql://ec2-35-169-9-79.compute-1.amazonaws.com:5432/d48o8qdf1m28j7
+    #postgres configuration heroku ---------
+    #url: jdbc:postgresql://ec2-35-169-9-79.compute-1.amazonaws.com:5432/d48o8qdf1m28j7
+    #username: oyczcgmprwrmje
+    #password: 78101f8a59640c34cccc6b7d99a4816d0e5c20f5f20f5f1b597e3882efb66223
+    url: jdbc:postgresql://localhost:5432/postgresdb
+    #url: jdbc:postgresql://ec2-35-169-9-79.compute-1.amazonaws.com:5432/d48o8qdf1m28j7
     generate-unique-name: false
     driver-class-name: org.postgresql.Driver
-    username: oyczcgmprwrmje
-    password: 78101f8a59640c34cccc6b7d99a4816d0e5c20f5f20f5f1b597e3882efb66223
+    username: postgres
+    password: postgres
   jpa:
     #database-platform: org.hibernate.dialect.H2Dialect
     defer-datasource-initialization: false
