@@ -12,22 +12,22 @@ server:
     context-path: /api
 
 spring:
-  #h2:
-    #console:
-      #enabled: true
+  h2:
+    console:
+      enabled: true
   datasource:
-    #url: jdbc:h2:mem:h2db
-    #generate-unique-name: false
-    #driver-class-name: org.h2.Driver
-    #username: sa
-    #password:
+    url: jdbc:h2:mem:h2db
+    generate-unique-name: false
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
     #postgres configuration heroku ---------
-    url: jdbc:postgresql://ec2-35-169-9-79.compute-1.amazonaws.com:5432/d48o8qdf1m28j7
-    username: oyczcgmprwrmje
-    password: 78101f8a59640c34cccc6b7d99a4816d0e5c20f5f20f5f1b597e3882efb66223
+    #url: jdbc:postgresql://ec2-35-169-9-79.compute-1.amazonaws.com:5432/d48o8qdf1m28j7
+    #username: oyczcgmprwrmje
+    #password: 78101f8a59640c34cccc6b7d99a4816d0e5c20f5f20f5f1b597e3882efb66223
     #postgres configuration local
     #url: jdbc:postgresql://localhost:5432/postgresdb
-    generate-unique-name: false
+    #generate-unique-name: false
     #driver-class-name: org.postgresql.Driver
     #username: postgres
     #password: postgres
