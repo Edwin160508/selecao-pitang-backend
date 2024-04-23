@@ -21,6 +21,8 @@ import br.com.edwin.lima.security.jwt.JwtTokenProvider;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
@@ -74,11 +76,12 @@ public class SecurityConfig {
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         request -> request.requestMatchers(
-                                "/signin/**",
-                                "/refresh/**",
-                                "/v3/api-docs/**",
-                                "/swagger-ui/**",
-                                "/users/**").permitAll()
+                                        antMatcher("/h2-console/**"),
+                                        antMatcher("/signin/**"),
+                                        antMatcher("/refresh/**"),
+                                        antMatcher("/v3/api-docs/**"),
+                                        antMatcher("/swagger-ui/**"),
+                                        antMatcher("/users/**")).permitAll()
                                 .requestMatchers("/cars/**").authenticated()
                 );
         return http.build();

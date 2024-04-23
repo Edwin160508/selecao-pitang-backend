@@ -5,6 +5,6 @@ CREATE TABLE IF NOT EXISTS `car` (
   `model` varchar(100) NOT NULL,
   `color`  varchar(20) NOT NULL,
   `user_id` INT NOT NULL,
-  FOREIGN KEY(`user_id`) REFERENCES `users`
+  FOREIGN KEY(`user_id`) REFERENCES `users`(`id`)
 
 );

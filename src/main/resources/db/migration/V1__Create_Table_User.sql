@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `last_name`  varchar(20) NOT NULL,
   `email` varchar(150) NOT NULL,
   `birthday` datetime(6) NULL,
-  `login`  varchar(20) NOT NULL,
+  `user_name`  varchar(20) NOT NULL,
   `password` varchar(250) NOT NULL,
   `phone` varchar(14) NOT NULL,
   `date_creation` datetime(6) NOT NULL,
